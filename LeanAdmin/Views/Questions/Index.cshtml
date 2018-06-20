@@ -1,14 +1,17 @@
-﻿@model IEnumerable<LeanAdmin.Models.Question>
+﻿@model PagedList.IPagedList<LeanAdmin.Models.Question>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Questions</h2>
 
-<div class="row">
-    <div class="col-sm">
-        <button class="btn btn-success">Add <i class="fas fa-plus-circle"></i></button>
-        <button class="btn btn-danger" type="button" data-url="@Url.Action("Delete")">Delete </button>
+<div class="row container">
+    <div class="row col-sm">
+        <form action="@Url.Action("AddQuestion")"><button class="btn btn-success" type="submit">Add <i class="fas fa-plus-circle"></i></button></form>
+        <form class="col-sm">
+            <button class="btn btn-danger" type="button" data-url="@Url.Action("Delete")">Delete <i class="fas fa-minus-circle"></i></button>
+        </form>
     </div>
     <div class="col-sm-3">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -19,6 +22,7 @@
 <div>
     <table class="table">
         <tr>
+            <th></th>
             <th>Name</th>
             <th>Decription</th>
             <th>Control Type</th>
@@ -27,6 +31,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    <input type="checkbox" />
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Label)
                 </td>
@@ -42,4 +49,9 @@
             </tr>
         }
     </table>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 </div>

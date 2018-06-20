@@ -5,10 +5,12 @@
 
 <h2>Control Types</h2>
 
-<div class="row">
-    <div class="col-sm">
-        <button class="btn btn-success">Add <i class="fas fa-plus-circle"></i></button>
-        <button class="btn btn-danger" type="button" data-url="@Url.Action("Delete")">Delete <i class="fas fa-minus-circle"></i></button>
+<div class="row container">
+    <div class="row col-sm">
+        <form action="@Url.Action("AddControl")"><button class="btn btn-success" type="submit">Add <i class="fas fa-plus-circle"></i></button></form>
+        <form class="col-sm">
+            <button class="btn btn-danger" id="bttDelete" type="button" data-url="@Url.Action("Delete")" disabled>Delete <i class="fas fa-minus-circle"></i></button>
+        </form>
     </div>
     <div class="col-sm-3">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -42,3 +44,12 @@
         }
     </table>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        var checkboxes = $("input[type='checkbox']");
+        $(document).on("change", checkboxes, function () {
+            $("#bttDelete").attr("disabled", !checkboxes.is(":checked"));
+        });
+    </script>
+}

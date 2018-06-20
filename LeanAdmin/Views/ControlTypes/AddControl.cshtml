@@ -1,0 +1,32 @@
+﻿@model LeanAdmin.Models.QuestionControl
+@{
+    ViewBag.Title = "AddControl";
+}
+
+<h2>AddControl</h2>
+
+
+<form action="@Url.Action("Index","ControlTypes")">
+    <div class="container">
+        <div class="mb-3">
+            <label>Description </label>
+            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 3 })
+        </div>
+        <div class="mb-3">
+            <label>Attribute </label>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th> <button class="btn btn-info addRow" type="button"><i class="fas fa-plus"></i></button></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <button class="btn btn-success" type="submit"> Add</button>
+
+</form>

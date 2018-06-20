@@ -321,6 +321,7 @@
     <Content Include="Views\ControlTypes\Index.cshtml" />
     <Content Include="Views\Questions\Index.cshtml" />
     <Content Include="Views\Questions\AddQuestion.cshtml" />
+    <Content Include="Views\ControlTypes\AddControl.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

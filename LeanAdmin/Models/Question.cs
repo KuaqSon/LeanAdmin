@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace LeanAdmin.Models
 {
@@ -18,5 +19,6 @@ namespace LeanAdmin.Models
         public DateTime UpdatedDate { get; set; }
         public int ControlId { get; set; }
         public bool IsActive { get; set; }
+
     }
 }

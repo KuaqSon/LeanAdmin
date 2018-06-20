@@ -27,5 +27,10 @@ namespace LeanAdmin.Controllers
             
             return View(questionsControl);
         }
+
+        public ActionResult AddControl(string Title)
+        {
+            return View();
+        }
     }
 }

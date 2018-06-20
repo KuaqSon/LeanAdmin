@@ -80,6 +80,8 @@ namespace LeanAdmin.Controllers
                 
             };
 
+            
+
             questions = questions.OrderBy(x => x.Label);
             var pageSize = 4;
             var pageNumber = (page ?? 1);
@@ -92,6 +94,11 @@ namespace LeanAdmin.Controllers
             return View();
         }
 
+        public ActionResult DeleteQuestion(string Item)
+        {
+
+            return View();
+        }
 
 
     }

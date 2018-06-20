@@ -10,24 +10,37 @@
     <div class="container">
         <div class="mb-3">
             <label>Label </label>
-            @Html.EditorFor(model => model.Label, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.TextBoxFor(model => model.Label, new { @class = "form-control" } )
         </div>
         <div class="mb-3">
             <label>Description </label>
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 3 })
         </div>
         <div class="mb-3">
             <label>Control Type </label>
-            @Html.EditorFor(model => model.ControlId, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.DropDownListFor(model => model.ControlId, new List<SelectListItem>
+                                                                                     {
+                                                                                        new SelectListItem {Text= "checkbox", Value="1", Selected =true},
+                                                                                        new SelectListItem {Text= "radio", Value="2" },
+                                                                                        new SelectListItem {Text= "color", Value="3" },
+                                                                                        new SelectListItem {Text= "date", Value="4" },
+                                                                                        new SelectListItem {Text= "email", Value="5" }
+
+                                                                                     }, new { @class = "form-control" })
         </div>
         <div class="mb-3">
             <label>Attribute </label>
             <table class="table">
-                <tr>
-                    <th>Name</th>
-                    <th>Value</th>
-                    <th> <button class="btn btn-info"><i class="fas fa-plus"></i></button></th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th> <button class="btn btn-info btn-sm addRow" type="button"><i class="fas fa-plus"></i></button></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
             </table>
         </div>
     </div>
@@ -35,3 +48,13 @@
     <button class="btn btn-success" type="submit"> Add</button>
 
 </form>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).on("click", ".addRow", function (s) {
+            var row = "<tr> <td> <input type='text' class='form-control'/> </td> <td> <input type='text'  class='form-control' /> </td>  <td><button class='btn btn-success btn-sm' type='button'> <i class='fas fa-check'></i></button></td> </tr>";
+            $("#tbody").append(row);            
+        });
+        
+    </script>    
+}

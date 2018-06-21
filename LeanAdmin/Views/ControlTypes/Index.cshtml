@@ -24,6 +24,7 @@
             <th>Name</th>
             <th>Decription</th>
             <th>Update Date</th>
+            <th></th>
         </tr>
         @foreach (var item in Model)
         {
@@ -39,6 +40,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedDate)
+                </td>
+                <td>
+                    <button class="btn btn-info btn-sm bttEdit" type="button" data-url="@Url.Action("EditControl",new { id = item.Id})">Edit</button>
                 </td>
             </tr>
         }
@@ -73,6 +77,11 @@
                 var id = $(this).find("td").text();
                 $(this).toggle(id.indexOf(value) !== -1);
             });
+        });
+
+        $(document).on("click", ".bttEdit", function () {
+            var url = $(this).data("url");
+            window.location.href = url;
         });
 
     </script>

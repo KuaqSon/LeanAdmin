@@ -220,6 +220,8 @@
     <Compile Include="Models\QuestionControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ControlTypeViewModels.cs" />
+    <Compile Include="ViewModels\AddQuestionViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -323,6 +325,8 @@
     <Content Include="Views\Questions\Index.cshtml" />
     <Content Include="Views\Questions\AddQuestion.cshtml" />
     <Content Include="Views\ControlTypes\AddControl.cshtml" />
+    <Content Include="Views\ControlTypes\EditControl.cshtml" />
+    <Content Include="Views\Questions\EditQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

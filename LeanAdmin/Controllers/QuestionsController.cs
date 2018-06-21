@@ -1,7 +1,9 @@
 ﻿using LeanAdmin.Models;
+using LeanAdmin.ViewModels;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -88,9 +90,12 @@ namespace LeanAdmin.Controllers
             return View(listQuestions);
         }
 
-        public ActionResult AddQuestion(string Title)
+        public ActionResult AddQuestion()
         {
-            return View();
+            var model = new AddQuestionViewModels();
+            model.ListControl = new SelectList(db.questionControls.ToList(), "Id", "Name");
+           
+            return View(model);
         }
 
         [HttpPost]
@@ -104,6 +109,32 @@ namespace LeanAdmin.Controllers
                 return RedirectToAction("Index");
             }
             return View(question);
+        }
+
+        public ActionResult EditQuestion (int id)
+        {
+            var question = db.questions.Find(id);
+            var model = new AddQuestionViewModels();
+
+            model.Id = question.Id;
+            model.Label = question.Label;
+            model.Description = question.Description;
+            model.ControlId = question.ControlId;
+            model.ListControl = new SelectList(db.questionControls.ToList(), "Id", "Name");
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditQuestion(Question question)
+        {
+            if (ModelState.IsValid)
+            {
+                question.UpdatedDate = DateTime.Now;
+                db.Entry(question).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult DeleteQuestion(string listItem)

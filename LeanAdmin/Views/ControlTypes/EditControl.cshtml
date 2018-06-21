@@ -1,12 +1,12 @@
 ﻿@model LeanAdmin.Models.QuestionControl
 @{
-    ViewBag.Title = "AddControl";
+    ViewBag.Title = "EditControl";
 }
 
-<h2>AddControl</h2>
+<h2>EditControl</h2>
 
 <br />
-<form action="@Url.Action("AddControl","ControlTypes")" method="post">
+<form action="@Url.Action("EditControl","ControlTypes")" method="post">
     <div class="container">
         <div class="mb-3">
             <label>Name </label>
@@ -18,6 +18,6 @@
         </div>
     </div>
 
-    <button class="btn btn-success" type="submit"> Add</button>
+    <button class="btn btn-success" type="submit">Edit</button>
 
 </form>

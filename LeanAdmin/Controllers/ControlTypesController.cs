@@ -15,23 +15,23 @@ namespace LeanAdmin.Controllers
             List<QuestionControl> questionsControl = new List<QuestionControl>
             {
                 new QuestionControl { Id = 1,
-                Name = "radio",
+                Name = "radio 1",
                 Description = "a radio control",
                 UpdatedDate = DateTime.Parse("1/1/2018") },
                 new QuestionControl { Id = 2,
-                Name = "radio",
+                Name = "radio 2",
                 Description = "a radio control",
                 UpdatedDate = DateTime.Parse("1/1/2018") },
                 new QuestionControl { Id = 3,
-                Name = "radio",
+                Name = "radio 3",
                 Description = "a radio control",
                 UpdatedDate = DateTime.Parse("1/1/2018") },
                 new QuestionControl { Id = 4,
-                Name = "radio",
+                Name = "radio 4",
                 Description = "a radio control",
                 UpdatedDate = DateTime.Parse("1/1/2018") },
                 new QuestionControl { Id = 5,
-                Name = "radio",
+                Name = "radio 5",
                 Description = "a radio control",
                 UpdatedDate = DateTime.Parse("1/1/2018") }
 

@@ -10,42 +10,27 @@ namespace LeanAdmin.Controllers
 {
     public class QuestionsController : Controller
     {
-        // GET: Questions
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
-        {
-            ViewBag.CurrentSort = sortOrder;
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
-
-            IEnumerable<Question> questions = new List<Question>
+        IEnumerable<Question> questions = new List<Question>
             {
                 new Question { Id = 1,
                 Label = "radio 1",
                 Description = "a radio control",
-                UpdatedDate = DateTime.Parse("1/1/2018"),
+                UpdatedDate = DateTime.Parse("2/2/2018"),
                 ControlId =1},
                 new Question { Id = 2,
                 Label = "radio 2",
                 Description = "a radio control",
-                UpdatedDate = DateTime.Parse("1/1/2018"),
+                UpdatedDate = DateTime.Parse("1/6/2018"),
                 ControlId =1 },
                 new Question { Id = 3,
                 Label = "radio 3",
                 Description = "a radio control",
-                UpdatedDate = DateTime.Parse("1/1/2018"),
+                UpdatedDate = DateTime.Parse("1/7/2018"),
                 ControlId =1 },
                 new Question { Id = 4,
                 Label = "radio 4",
                 Description = "a radio control",
-                UpdatedDate = DateTime.Parse("1/1/2018"),
+                UpdatedDate = DateTime.Parse("1/9/2018"),
                 ControlId =1 },
                 new Question { Id = 5,
                 Label = "radio 5",
@@ -77,12 +62,24 @@ namespace LeanAdmin.Controllers
                 Description = "a radio control",
                 UpdatedDate = DateTime.Parse("1/1/2018"),
                 ControlId =1 },
-                
+
             };
+        // GET: Questions
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
-            
+            ViewBag.CurrentFilter = searchString;
 
-            questions = questions.OrderBy(x => x.Label);
+            questions = questions.OrderBy(x => x.Id);
             var pageSize = 4;
             var pageNumber = (page ?? 1);
             var listQuestions = questions.ToPagedList(pageNumber, pageSize);

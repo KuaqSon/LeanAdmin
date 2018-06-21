@@ -21,6 +21,18 @@ namespace LeanAdmin.Controllers
                 new QuestionControl { Id = 2,
                 Name = "radio",
                 Description = "a radio control",
+                UpdatedDate = DateTime.Parse("1/1/2018") },
+                new QuestionControl { Id = 3,
+                Name = "radio",
+                Description = "a radio control",
+                UpdatedDate = DateTime.Parse("1/1/2018") },
+                new QuestionControl { Id = 4,
+                Name = "radio",
+                Description = "a radio control",
+                UpdatedDate = DateTime.Parse("1/1/2018") },
+                new QuestionControl { Id = 5,
+                Name = "radio",
+                Description = "a radio control",
                 UpdatedDate = DateTime.Parse("1/1/2018") }
 
             };

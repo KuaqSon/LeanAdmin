@@ -29,7 +29,7 @@
         {
             <tr>
                 <td>
-                    <input type="checkbox" />
+                    <input name="check" type="checkbox" value="@item.Id"/>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -51,5 +51,18 @@
         $(document).on("change", checkboxes, function () {
             $("#bttDelete").attr("disabled", !checkboxes.is(":checked"));
         });
+
+        $(document).on("click", "#bttDelete", function () {
+            $self = $(this);
+            var listCheck = [];
+            var url = $self.data("url") + "?listItem=";
+            $("input[name='check']:checked").each(function () {
+                listCheck.push($(this).val());
+                url += String($(this).val()) + "-";
+                var tr = $(this).closest("tr");
+                tr.remove();
+            });
+        });
+
     </script>
 }

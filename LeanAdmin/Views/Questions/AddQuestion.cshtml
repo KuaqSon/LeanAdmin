@@ -51,10 +51,25 @@
 
 @section scripts {
     <script type="text/javascript">
-        $(document).on("click", ".addRow", function (s) {
-            var row = "<tr> <td> <input type='text' class='form-control'/> </td> <td> <input type='text'  class='form-control' /> </td>  <td><button class='btn btn-success btn-sm' type='button'> <i class='fas fa-check'></i></button></td> </tr>";
+        $(document).on("click", ".addRow", function () {
+            var row = "<tr> <td> <input type='text'  class='form-control inputName'/> </td> <td> <input type='text'  class='form-control inputValue' /> </td>  <td><button class='btn btn-success btn-sm bttAddAttr' type='button'> <i class='fas fa-check'></i></button></td> </tr>";
             $("#tbody").append(row);            
         });
-        
+
+        $(document).on("click", ".bttAddAttr", function () {
+            $self = $(this);
+            var name = $self.closest("tr").find(".inputName").val();
+            var value = $self.closest("tr").find(".inputValue").val();
+            var row = "<tr> <td>" + name + "</td> <td> " + value + " </td>  <td><button class='btn btn-danger btn-sm bttDelAttr' type='button'><i class='fas fa-times'></i></button></td> </tr>";
+            var tr = $self.closest("tr");
+            tr.remove();
+            $("#tbody").append(row);
+        });
+
+        $(document).on("click", ".bttDelAttr", function () {
+            var tr = $(this).closest("tr");
+            tr.remove();
+        });
+
     </script>    
 }

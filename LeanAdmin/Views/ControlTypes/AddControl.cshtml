@@ -13,17 +13,16 @@
             @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 3 })
         </div>
         <div class="mb-3">
-            <label>Attribute </label>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Value</th>
-                        <th> <button class="btn btn-info addRow" type="button"><i class="fas fa-plus"></i></button></th>
-                    </tr>
-                </thead>
-                <tbody id="tbody"></tbody>
-            </table>
+            <label>Type </label>
+            @Html.DropDownListFor(model => model.Name, new List<SelectListItem>
+                                                                                       {
+                                                                                          new SelectListItem {Text= "checkbox", Value="1", Selected =true},
+                                                                                          new SelectListItem {Text= "radio", Value="2" },
+                                                                                          new SelectListItem {Text= "color", Value="3" },
+                                                                                          new SelectListItem {Text= "date", Value="4" },
+                                                                                          new SelectListItem {Text= "email", Value="5" }
+
+                                                                                       }, new { @class = "form-control" })
         </div>
     </div>
 

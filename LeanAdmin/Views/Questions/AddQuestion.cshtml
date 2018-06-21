@@ -6,7 +6,7 @@
 <h2>Add Question</h2>
 <br />
 
-<form action="@Url.Action("Index","Questions")">
+<form action="@Url.Action("AddQuestion","Questions")" method="post">
     <div class="container">
         <div class="mb-3">
             <label>Label </label>
@@ -60,10 +60,17 @@
             $self = $(this);
             var name = $self.closest("tr").find(".inputName").val();
             var value = $self.closest("tr").find(".inputValue").val();
-            var row = "<tr> <td>" + name + "</td> <td> " + value + " </td>  <td><button class='btn btn-danger btn-sm bttDelAttr' type='button'><i class='fas fa-times'></i></button></td> </tr>";
-            var tr = $self.closest("tr");
-            tr.remove();
-            $("#tbody").append(row);
+            if (!name && !value) {
+                alert("Please input data");
+                var tr = $self.closest("tr");
+                tr.remove();
+            }
+            else {
+                var row = "<tr> <td>" + name + "</td> <td> " + value + " </td>  <td><button class='btn btn-danger btn-sm bttDelAttr' type='button'><i class='fas fa-times'></i></button></td> </tr>";
+                var tr = $self.closest("tr");
+                tr.remove();
+                $("#tbody").append(row);
+            }
         });
 
         $(document).on("click", ".bttDelAttr", function () {

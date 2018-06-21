@@ -4,12 +4,12 @@
 }
 
 <h2>Control Types</h2>
-
+<br />
 <div class="row container">
     <div class="row col-sm">
         <form action="@Url.Action("AddControl")"><button class="btn btn-success" type="submit">Add <i class="fas fa-plus-circle"></i></button></form>
         <form class="col-sm">
-            <button class="btn btn-danger" id="bttDelete" type="button" data-url="@Url.Action("Delete")" disabled>Delete <i class="fas fa-minus-circle"></i></button>
+            <button class="btn btn-danger" id="bttDelete" type="button" data-url="@Url.Action("DeleteControl")" disabled>Delete <i class="fas fa-minus-circle"></i></button>
         </form>
     </div>
     <div class="col-sm-3">
@@ -54,14 +54,15 @@
 
         $(document).on("click", "#bttDelete", function () {
             $self = $(this);
-            var listCheck = [];
+            //var listCheck = [];
             var url = $self.data("url") + "?listItem=";
             $("input[name='check']:checked").each(function () {
-                listCheck.push($(this).val());
+                //listCheck.push($(this).val());
                 url += String($(this).val()) + "-";
-                var tr = $(this).closest("tr");
-                tr.remove();
+                //var tr = $(this).closest("tr");
+                //tr.remove();
             });
+            window.location.href = url;
         });
 
         $(document).on("keyup", ".searchBox", function () {

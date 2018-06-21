@@ -37,16 +37,16 @@
                         <input name="check" type="checkbox" value="@item.Id"/>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Label)
+                        @item.Label
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Description)
+                        @item.Description
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ControlId)
+                        @item.ControlId
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.UpdatedDate)
+                        @item.UpdatedDate
                     </td>
                 </tr>
             }
@@ -68,15 +68,15 @@
         
         $(document).on("click", "#bttDelete", function () {
             $self = $(this);
-            var listCheck = [];
+            //var listCheck = [];
             var url = $self.data("url") + "?listItem=";
             $("input[name='check']:checked").each(function () {
-                listCheck.push($(this).val());
+                //listCheck.push($(this).val());
                 url += String($(this).val()) + "-";
-                var tr = $(this).closest("tr");
-                tr.remove();
+                //var tr = $(this).closest("tr");
+                //tr.remove();
             });
-            
+            window.location.href = url;
         });
 
         $(document).on("keyup", ".searchBox", function () {

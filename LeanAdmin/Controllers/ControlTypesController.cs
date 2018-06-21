@@ -9,10 +9,8 @@ namespace LeanAdmin.Controllers
 {
     public class ControlTypesController : Controller
     {
-        // GET: ControlTypes
-        public ActionResult Index()
-        {
-            List<QuestionControl> questionsControl = new List<QuestionControl>
+        private LeanDbContext db = new LeanDbContext();
+        List<QuestionControl> questionsControl = new List<QuestionControl>
             {
                 new QuestionControl { Id = 1,
                 Name = "radio 1",
@@ -34,15 +32,50 @@ namespace LeanAdmin.Controllers
                 Name = "radio 5",
                 Description = "a radio control",
                 UpdatedDate = DateTime.Parse("1/1/2018") }
-
             };
-            
-            return View(questionsControl);
+        // GET: ControlTypes
+        public ActionResult Index()
+        {
+            var questionControls = db.questionControls.ToList();
+            return View(questionControls);
         }
 
         public ActionResult AddControl(string Title)
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddControl(QuestionControl questionControl)
+        {
+            if (ModelState.IsValid)
+            {
+                questionControl.UpdatedDate = DateTime.Now;
+                db.questionControls.Add(questionControl);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(questionControl);
+        }
+
+        public ActionResult DeleteControl(string listItem)
+        {
+            var listControl = listItem.Split('-');
+            foreach (var item in listControl)
+            {
+                if (item == "")
+                {
+                    return RedirectToAction("Index");
+                }
+                var id = int.Parse(item);
+                var delItem = db.questionControls.Find(id);
+                if (delItem != null)
+                {
+                    db.questionControls.Remove(delItem);
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index");
         }
     }
 }

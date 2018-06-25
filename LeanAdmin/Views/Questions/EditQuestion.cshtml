@@ -35,15 +35,15 @@
                 <tbody id="tbody">
                     @foreach (var item in Model.QuestionAttributes)
                     {
-                    <tr class="AttributeRow">
-                        <td class='inputName'>
-                            @item.Name
-                        </td>
-                        <td class="inputValue">
-                            @item.Value
-                        </td>
-                        <td><button class='btn btn-danger btn-sm bttDelAttr' data-id="@item.Id" type='button'><i class='fas fa-times'></i></button></td>
-                    </tr>
+                        <tr class="AttributeRow">
+                            <td class='inputName'>
+                                @item.Name
+                            </td>
+                            <td class="inputValue">
+                                @item.Value
+                            </td>
+                            <td><button class='btn btn-danger btn-sm bttDelAttr' data-id="@item.Id" type='button'><i class='fas fa-times'></i></button></td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -51,10 +51,12 @@
     </div>
 
     <button class="btn btn-success bttEditQues" data-url="@Url.Action("EditQuestion","Questions")" type="button">Save</button>
-
+    <button class="btn btn-outline-info bttBackQues" data-url="@Url.Action("Index","Questions")" type="button"> Back</button>
 </form>
 
 @section scripts {
+    <script src="/Scripts/toastr.js"></script>
+    <script src="/Scripts/bootbox.min.js"></script>
     <script type="text/javascript">
         $(document).on("click", ".addRow", function () {
             var row = "<tr> <td> <input type='text'  class='form-control inputName'/> </td> <td> <input type='text'  class='form-control inputValue' /> </td>  <td><button class='btn btn-success btn-sm bttAddAttr' type='button'> <i class='fas fa-check'></i></button></td> </tr>";
@@ -105,16 +107,24 @@
                 QuestionAttributes: attributeArr,
                 DeletedQuestionAttributes: DeletedAttributeArr
             };
-            $.ajax({
-                url: url,
-                data: data,
-                type: "POST",
-                success: function () {
-                    location.href = "/Questions"
-                }
-            });
+            if ($("#Label").val() == "") {
+                bootbox.alert("Please Insert Label !!");
+            } else {
+                $.ajax({
+                    url: url,
+                    data: data,
+                    type: "POST",
+                    success: function () {
+                        toastr.success('Question Edited !!', { positionClass: 'toast-top-right', timeOut: 300 });
+                        //location.href = "/Questions"
+                    }
+                });
+            }
 
         });
 
+        $(document).on("click", ".bttBackQues", function () {
+            location.href = "/Questions";
+        });
     </script>
 }

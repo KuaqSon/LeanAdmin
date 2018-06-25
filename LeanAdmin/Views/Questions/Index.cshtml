@@ -10,7 +10,7 @@
     <div class="row col-sm">
         <form action="@Url.Action("AddQuestion")"><button class="btn btn-success" type="submit">Add <i class="fas fa-plus-circle"></i></button></form>
         <div class="col-sm">
-            <button class="btn btn-danger" id="bttDelete" type="button" data-url="@Url.Action("DeleteQuestion")" disabled >Delete <i class="fas fa-minus-circle"></i></button>
+            <button class="btn btn-danger" id="bttDelete" type="button" data-url="@Url.Action("DeleteQuestion")" disabled>Delete <i class="fas fa-minus-circle"></i></button>
         </div>
     </div>
     <div class="col-sm-3">
@@ -33,26 +33,26 @@
         <tbody class="tbody">
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    <input name="check" type="checkbox" value="@item.Id" />
-                </td>
-                <td>
-                    @item.Label
-                </td>
-                <td>
-                    @item.Description
-                </td>
-                <td>
-                    @item.ControlId
-                </td>
-                <td>
-                    @item.UpdatedDate
-                </td>
-                <td>
-                    <button class="btn btn-info btn-sm bttEdit" type="button" data-url="@Url.Action("EditQuestion",new { id = item.Id})">Edit</button>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <input name="check" type="checkbox" value="@item.Id" />
+                    </td>
+                    <td>
+                        @item.Label
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        @item.ControlId
+                    </td>
+                    <td>
+                        @item.UpdatedDate
+                    </td>
+                    <td>
+                        <button class="btn btn-info btn-sm bttEdit" type="button" data-url="@Url.Action("EditQuestion",new { id = item.Id})">Edit</button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -64,12 +64,14 @@
 </div>
 
 @section scripts {
+    <script src="/Scripts/bootbox.min.js"></script>
+    <script src="/Scripts/toastr.js"></script>
     <script type="text/javascript">
         var checkboxes = $("input[type='checkbox']");
         $(document).on("change", checkboxes, function () {
             $("#bttDelete").attr("disabled", !checkboxes.is(":checked"));
         });
-        
+
         $(document).on("click", "#bttDelete", function () {
             $self = $(this);
             //var listCheck = [];
@@ -80,7 +82,13 @@
                 //var tr = $(this).closest("tr");
                 //tr.remove();
             });
-            window.location.href = url;
+
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    window.location.href = url;
+                }
+            });
+            
         });
 
         $(document).on("keyup", ".searchBox", function () {
@@ -97,5 +105,5 @@
             window.location.href = url;
         });
 
-    </script>    
+    </script>
 }

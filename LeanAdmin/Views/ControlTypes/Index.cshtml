@@ -30,16 +30,16 @@
         {
             <tr>
                 <td>
-                    <input name="check" type="checkbox" value="@item.Id"/>
+                    <input name="check" type="checkbox" value="@item.Id" />
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @item.Name
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @item.Description
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedDate)
+                    @item.UpdatedDate
                 </td>
                 <td>
                     <button class="btn btn-info btn-sm bttEdit" type="button" data-url="@Url.Action("EditControl",new { id = item.Id})">Edit</button>
@@ -50,6 +50,7 @@
 </div>
 
 @section scripts {
+    <script src="/Scripts/bootbox.min.js"></script>
     <script type="text/javascript">
         var checkboxes = $("input[type='checkbox']");
         $(document).on("change", checkboxes, function () {
@@ -66,7 +67,11 @@
                 //var tr = $(this).closest("tr");
                 //tr.remove();
             });
-            window.location.href = url;
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    window.location.href = url;
+                } 
+            });
         });
 
         $(document).on("keyup", ".searchBox", function () {

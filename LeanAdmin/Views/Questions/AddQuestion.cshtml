@@ -29,7 +29,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Value</th>
-                        <th> <button class="btn btn-info btn-sm addRow" type="button"><i class="fas fa-plus"></i></button></th>
+                        <th> <button class="btn btn-info btn-sm float-sm-right addRow" type="button"><i class="fas fa-plus"></i></button></th>
                     </tr>
                 </thead>
                 <tbody id="tbody"></tbody>
@@ -38,13 +38,16 @@
     </div>
 
     <button class="btn btn-success bttAddQues" data-url="@Url.Action("AddQuestion","Questions")" type="button"> Save</button>
-
+    <button class="btn btn-outline-info bttBackQues" data-url="@Url.Action("Index","Questions")" type="button"> Back</button>
 </form>
 
 @section scripts {
+    <script src="/Scripts/toastr.js"></script>
+    <script src="/Scripts/bootbox.min.js"></script>
     <script type="text/javascript">
+        
         $(document).on("click", ".addRow", function () {
-            var row = "<tr> <td> <input type='text'  class='form-control inputName'/> </td> <td> <input type='text'  class='form-control inputValue' /> </td>  <td><button class='btn btn-success btn-sm bttAddAttr' type='button'> <i class='fas fa-check'></i></button></td> </tr>";
+            var row = "<tr> <td> <input type='text'  class='form-control inputName'/> </td> <td> <input type='text'  class='form-control inputValue' /> </td>  <td><button class='btn btn-success float-sm-right btn-sm bttAddAttr' type='button'> <i class='fas fa-check'></i></button></td> </tr>";
             $("#tbody").append(row);
         });
 
@@ -60,7 +63,7 @@
                 tr.remove();
             }
             else {
-                var row = "<tr> <td class='inputName'>" + name + "</td> <td class='inputValue'> " + value + " </td>  <td><button class='btn btn-danger btn-sm bttDelAttr' type='button'><i class='fas fa-times'></i></button></td> </tr>";
+                var row = "<tr> <td class='inputName'>" + name + "</td> <td class='inputValue'> " + value + " </td>  <td><button class='btn btn-danger btn-sm float-sm-right bttDelAttr' type='button'><i class='fas fa-times'></i></button></td> </tr>";
                 var Attr = { Name: name, Value: value };
                 attributeArr.push(Attr);
                 var tr = $self.closest("tr");
@@ -90,14 +93,24 @@
                 ControlId: $("#ControlId").val(),
                 QuestionAttributes: attributeArr
             };
-            $.ajax({
-                url: url,
-                data: data,
-                type: "POST",
-                success: function () {
-                    location.href = "/Questions"
-                }
-            });
+            if ($("#Label").val() == "") {
+                bootbox.alert("Please Insert Label !!");
+            } else {
+                $.ajax({
+                    url: url,
+                    data: data,
+                    type: "POST",
+                    success: function () {
+                        toastr.success('Question Added !!', { positionClass: 'toast-top-right', timeOut: 300 });
+                        //location.href = "/Questions"
+                    }
+                });
+            }
+
+        });
+
+        $(document).on("click", ".bttBackQues", function () {
+            location.href = "/Questions";
         });
 
     </script>

@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <button class="btn btn-success" type="submit"> Add</button>
+    <button class="btn btn-success bttAddQues" data-url="@Url.Action("AddQuestion","Questions")" type="button"> Add</button>
 
 </form>
 
@@ -46,6 +46,8 @@
             var row = "<tr> <td> <input type='text'  class='form-control inputName'/> </td> <td> <input type='text'  class='form-control inputValue' /> </td>  <td><button class='btn btn-success btn-sm bttAddAttr' type='button'> <i class='fas fa-check'></i></button></td> </tr>";
             $("#tbody").append(row);
         });
+
+        var attributeArr = [];
 
         $(document).on("click", ".bttAddAttr", function () {
             $self = $(this);
@@ -57,7 +59,9 @@
                 tr.remove();
             }
             else {
-                var row = "<tr> <td>" + name + "</td> <td> " + value + " </td>  <td><button class='btn btn-danger btn-sm bttDelAttr' type='button'><i class='fas fa-times'></i></button></td> </tr>";
+                var row = "<tr> <td class='inputName'>" + name + "</td> <td class='inputValue'> " + value + " </td>  <td><button class='btn btn-danger btn-sm bttDelAttr' type='button'><i class='fas fa-times'></i></button></td> </tr>";
+                var Attr = { Name: name, Value: value };
+                attributeArr.push(Attr);
                 var tr = $self.closest("tr");
                 tr.remove();
                 $("#tbody").append(row);
@@ -65,8 +69,30 @@
         });
 
         $(document).on("click", ".bttDelAttr", function () {
+            var name = $self.closest("tr").find(".inputName").val();
+            var value = $self.closest("tr").find(".inputValue").val();
+            var Attr = { Name: name, Value: value };
+            attributeArr.pop(Attr);
             var tr = $(this).closest("tr");
             tr.remove();
+        });
+
+
+
+        $(document).on("click", ".bttAddQues", function () {
+            var $self = $(this);
+            var url = $self.data("url");
+            var data = {
+                Label: $("#Label").val(),
+                Description: $("#Description").val(),
+                ControlId: $("#ControlId").val(),
+                QuestionAttributes: attributeArr
+            };
+            $.ajax({
+                url: url,
+                data: data,
+                type: "POST"
+            });
         });
 
     </script>

@@ -94,13 +94,33 @@ namespace LeanAdmin.Controllers
         {
             var model = new AddQuestionViewModels();
             model.ListControl = new SelectList(db.questionControls.ToList(), "Id", "Name");
-           
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult AddQuestion(Question question)
+        public ActionResult AddQuestion(AddQuestionViewModels questionModel)
         {
+            var question = new Question();
+            var questionAttr = new QuestionAttribute();
+
+            question.Id = questionModel.Id;
+            question.Label = questionModel.Label;
+            question.Description = questionModel.Description;
+            question.ControlId = questionModel.ControlId;
+
+            foreach ( var item in questionModel.QuestionAttributes)
+            {
+                questionAttr.Name = item.Name;
+                questionAttr.Value = item.Value;
+                questionAttr.QuestionId = question.Id;
+                if (ModelState.IsValid)
+                {
+                    questionAttr.UpdatedDate = DateTime.Now;
+                    db.questionAttributes.Add(questionAttr);
+                    db.SaveChanges();
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 question.UpdatedDate = DateTime.Now;
@@ -108,7 +128,7 @@ namespace LeanAdmin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(question);
+            return View(questionModel);
         }
 
         public ActionResult EditQuestion (int id)

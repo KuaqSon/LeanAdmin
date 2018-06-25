@@ -9,6 +9,7 @@
 
 <form action="@Url.Action("AddQuestion","Questions")" method="post">
     <div class="container">
+        @Html.HiddenFor(model => model.Id)
         <div class="mb-3">
             <label>Label </label>
             @Html.TextBoxFor(model => model.Label, new { @class = "form-control" })
@@ -36,7 +37,7 @@
         </div>
     </div>
 
-    <button class="btn btn-success bttAddQues" data-url="@Url.Action("AddQuestion","Questions")" type="button"> Add</button>
+    <button class="btn btn-success bttAddQues" data-url="@Url.Action("AddQuestion","Questions")" type="button"> Save</button>
 
 </form>
 
@@ -83,6 +84,7 @@
             var $self = $(this);
             var url = $self.data("url");
             var data = {
+                Id: $("#Id").val(),
                 Label: $("#Label").val(),
                 Description: $("#Description").val(),
                 ControlId: $("#ControlId").val(),
@@ -91,7 +93,10 @@
             $.ajax({
                 url: url,
                 data: data,
-                type: "POST"
+                type: "POST",
+                success: function () {
+                    location.href = "/Questions"
+                }
             });
         });
 

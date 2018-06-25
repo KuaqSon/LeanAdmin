@@ -9,6 +9,7 @@
 
 <form action="@Url.Action("EditQuestion","Questions")" method="post">
     <div class="container">
+        @Html.HiddenFor(model => model.Id)
         <div class="mb-3">
             <label>Label </label>
             @Html.TextBoxFor(model => model.Label, new { @class = "form-control" })
@@ -31,12 +32,25 @@
                         <th> <button class="btn btn-info btn-sm addRow" type="button"><i class="fas fa-plus"></i></button></th>
                     </tr>
                 </thead>
-                <tbody id="tbody"></tbody>
+                <tbody id="tbody">
+                    @foreach (var item in Model.QuestionAttributes)
+                    {
+                    <tr class="AttributeRow">
+                        <td class='inputName'>
+                            @item.Name
+                        </td>
+                        <td class="inputValue">
+                            @item.Value
+                        </td>
+                        <td><button class='btn btn-danger btn-sm bttDelAttr' data-id="@item.Id" type='button'><i class='fas fa-times'></i></button></td>
+                    </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>
 
-    <button class="btn btn-success" type="submit">Edit</button>
+    <button class="btn btn-success bttEditQues" data-url="@Url.Action("EditQuestion","Questions")" type="button">Save</button>
 
 </form>
 
@@ -46,6 +60,8 @@
             var row = "<tr> <td> <input type='text'  class='form-control inputName'/> </td> <td> <input type='text'  class='form-control inputValue' /> </td>  <td><button class='btn btn-success btn-sm bttAddAttr' type='button'> <i class='fas fa-check'></i></button></td> </tr>";
             $("#tbody").append(row);
         });
+        var attributeArr = [];
+        var DeletedAttributeArr = [];
 
         $(document).on("click", ".bttAddAttr", function () {
             $self = $(this);
@@ -57,7 +73,9 @@
                 tr.remove();
             }
             else {
-                var row = "<tr> <td>" + name + "</td> <td> " + value + " </td>  <td><button class='btn btn-danger btn-sm bttDelAttr' type='button'><i class='fas fa-times'></i></button></td> </tr>";
+                var row = "<tr> <td class='inputName'>" + name + "</td> <td class='inputValue'> " + value + " </td>  <td><button class='btn btn-danger btn-sm bttDelAttr' type='button'><i class='fas fa-times'></i></button></td> </tr>";
+                var Attr = { Name: name, Value: value };
+                attributeArr.push(Attr);
                 var tr = $self.closest("tr");
                 tr.remove();
                 $("#tbody").append(row);
@@ -65,8 +83,37 @@
         });
 
         $(document).on("click", ".bttDelAttr", function () {
+            //var name = $self.closest("tr").find(".inputName").val();
+            //var value = $self.closest("tr").find(".inputValue").val();
+            //var Attr = { Name: name, Value: value };
+            //attributeArr.pop(Attr);
+
             var tr = $(this).closest("tr");
+            var rowId = $(this).data("id");
+            DeletedAttributeArr.push(rowId);
             tr.remove();
+        });
+
+        $(document).on("click", ".bttEditQues", function () {
+            var $self = $(this);
+            var url = $self.data("url");
+            var data = {
+                Id: $("#Id").val(),
+                Label: $("#Label").val(),
+                Description: $("#Description").val(),
+                ControlId: $("#ControlId").val(),
+                QuestionAttributes: attributeArr,
+                DeletedQuestionAttributes: DeletedAttributeArr
+            };
+            $.ajax({
+                url: url,
+                data: data,
+                type: "POST",
+                success: function () {
+                    location.href = "/Questions"
+                }
+            });
+
         });
 
     </script>

@@ -102,17 +102,25 @@ namespace LeanAdmin.Controllers
         {
             var question = new Question();
             var questionAttr = new QuestionAttribute();
-
-            question.Id = questionModel.Id;
+            var QuestionId = 0;
+            
             question.Label = questionModel.Label;
             question.Description = questionModel.Description;
             question.ControlId = questionModel.ControlId;
+
+            if (ModelState.IsValid)
+            {
+                question.UpdatedDate = DateTime.Now;
+                db.questions.Add(question);
+                db.SaveChanges();
+                QuestionId = question.Id;
+            }
 
             foreach ( var item in questionModel.QuestionAttributes)
             {
                 questionAttr.Name = item.Name;
                 questionAttr.Value = item.Value;
-                questionAttr.QuestionId = question.Id;
+                questionAttr.QuestionId = QuestionId;
                 if (ModelState.IsValid)
                 {
                     questionAttr.UpdatedDate = DateTime.Now;
@@ -121,14 +129,8 @@ namespace LeanAdmin.Controllers
                 }
             }
 
-            if (ModelState.IsValid)
-            {
-                question.UpdatedDate = DateTime.Now;
-                db.questions.Add(question);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(questionModel);
+            return RedirectToAction("Index");
+            //return View(questionModel);
         }
 
         public ActionResult EditQuestion (int id)
@@ -141,19 +143,45 @@ namespace LeanAdmin.Controllers
             model.Description = question.Description;
             model.ControlId = question.ControlId;
             model.ListControl = new SelectList(db.questionControls.ToList(), "Id", "Name");
+            model.QuestionAttributes = new List<QuestionAttribute>(db.questionAttributes.Where(x => x.QuestionId == model.Id).ToList());
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult EditQuestion(Question question)
+        public ActionResult EditQuestion(AddQuestionViewModels questionModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                question.UpdatedDate = DateTime.Now;
-                db.Entry(question).State = EntityState.Modified;
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            var question = new Question();
+            var questionAttr = new QuestionAttribute();
+
+            question.Id = questionModel.Id;
+            question.Label = questionModel.Label;
+            question.Description = questionModel.Description;
+            question.ControlId = questionModel.ControlId;
+            question.UpdatedDate = DateTime.Now;
+            db.Entry(question).State = EntityState.Modified;
+            db.SaveChanges();
+
+            foreach (var item in questionModel.QuestionAttributes)
+            {
+                questionAttr.Name = item.Name;
+                questionAttr.Value = item.Value;
+                questionAttr.QuestionId = questionModel.Id;
+                questionAttr.UpdatedDate = DateTime.Now;
+                db.questionAttributes.Add(questionAttr);
+            }
+
+            foreach ( var id in questionModel.DeletedQuestionAttributes)
+            {
+                var DeleteItem = db.questionAttributes.Find(id);
+                db.questionAttributes.Remove(DeleteItem);
+            }
+
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

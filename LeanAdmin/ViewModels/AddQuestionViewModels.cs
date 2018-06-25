@@ -16,5 +16,6 @@ namespace LeanAdmin.ViewModels
 
         public SelectList ListControl { get; set; }
         public List<QuestionAttribute> QuestionAttributes { get; set; } = new List<QuestionAttribute>();
+        public List<int> DeletedQuestionAttributes { get; set; } = new List<int>();
     }
 }

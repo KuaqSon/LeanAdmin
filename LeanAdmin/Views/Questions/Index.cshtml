@@ -85,7 +85,16 @@
 
             bootbox.confirm("Are you sure?", function (result) {
                 if (result) {
-                    window.location.href = url;
+                    $.ajax({
+                        url: url,
+                        success: function () {
+                            toastr.success('Question Deleted !!', { positionClass: 'toast-top-right', timeOut: 300 });
+                            $("input[name='check']:checked").each(function () {
+                                var tr = $(this).closest("tr");
+                                tr.remove();
+                            });
+                        }
+                    });
                 }
             });
             

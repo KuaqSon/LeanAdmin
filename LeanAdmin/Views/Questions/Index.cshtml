@@ -47,7 +47,7 @@
                         @item.ControlId
                     </td>
                     <td>
-                        @item.UpdatedDate
+                        @item.UpdatedDate.ToShortDateString()
                     </td>
                     <td>
                         <button class="btn btn-info btn-sm bttEdit" type="button" data-url="@Url.Action("EditQuestion",new { id = item.Id})">Edit</button>
@@ -92,6 +92,7 @@
                             $("input[name='check']:checked").each(function () {
                                 var tr = $(this).closest("tr");
                                 tr.remove();
+                                $("#bttDelete").attr("disabled", true);
                             });
                         }
                     });

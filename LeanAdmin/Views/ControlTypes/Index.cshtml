@@ -39,7 +39,7 @@
                     @item.Description
                 </td>
                 <td>
-                    @item.UpdatedDate
+                    @item.UpdatedDate.ToShortDateString()
                 </td>
                 <td>
                     <button class="btn btn-info btn-sm bttEdit" type="button" data-url="@Url.Action("EditControl",new { id = item.Id})">Edit</button>
@@ -51,6 +51,7 @@
 
 @section scripts {
     <script src="/Scripts/bootbox.min.js"></script>
+    <script src="/Scripts/toastr.js"></script>
     <script type="text/javascript">
         var checkboxes = $("input[type='checkbox']");
         $(document).on("change", checkboxes, function () {
@@ -69,9 +70,19 @@
             });
             bootbox.confirm("Are you sure?", function (result) {
                 if (result) {
-                    window.location.href = url;
-                } 
-            });
+                    $.ajax({
+                        url: url,
+                        success: function () {
+                            toastr.success('Control Type Deleted !!', { positionClass: 'toast-top-right', timeOut: 300 });
+                            $("input[name='check']:checked").each(function () {
+                                var tr = $(this).closest("tr");
+                                tr.remove();
+                                $("#bttDelete").attr("disabled", true);
+                            });
+                        }
+                    });
+                }
+            });;
         });
 
         $(document).on("keyup", ".searchBox", function () {

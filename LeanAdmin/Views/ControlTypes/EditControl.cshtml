@@ -18,12 +18,38 @@
         </div>
     </div>
 
-    <button class="btn btn-success" type="submit">Edit</button>
+    <button class="btn btn-success bttEditControl" data-url="@Url.Action("EditControl","ControlTypes")" type="button">Edit</button>
     <button class="btn btn-outline-info bttBackQues" type="button"> Back</button>
 </form>
 
 @section scripts {
+    <script src="/Scripts/toastr.js"></script>
+    <script src="/Scripts/bootbox.min.js"></script>
     <script type="text/javascript">
+        $(document).on("click", ".bttEditControl", function () {
+            var $self = $(this);
+            var url = $self.data("url");
+            var data = {
+                Id: $("#Id").val(),
+                Name: $("#Name").val(),
+                Description: $("#Description").val()
+            };
+            if ($("#Name").val() == "") {
+                bootbox.alert("Please Insert Name !!");
+            } else {
+                $.ajax({
+                    url: url,
+                    data: data,
+                    type: "POST",
+                    success: function () {
+                        toastr.success('Control Type Edited !!', { positionClass: 'toast-top-right', timeOut: 300 });
+                        //location.href = "/Questions"
+                    }
+                });
+            }
+
+        });
+
         $(document).on("click", ".bttBackQues", function () {
             location.href = "/ControlTypes";
         });
